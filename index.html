@@ -1,1 +1,338 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frase do Dia - Fé e Motivação</title>
+<style>
+  :root {
+    --cor-fundo-1: #4b6cb7;
+    --cor-fundo-2: #182848;
+    --cor-card: #ffffff;
+    --cor-texto: #222222;
+    --cor-destaque: #4b6cb7;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(180deg, var(--cor-fundo-1), var(--cor-fundo-2));
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 24px 16px 50px;
+  }
+  .container {
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+  }
+  h1 {
+    color: #fff;
+    font-size: 22px;
+    margin: 0 0 4px;
+  }
+  p.subtitulo {
+    color: #dbe4ff;
+    font-size: 13px;
+    margin: 0 0 20px;
+  }
+  .categorias {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .cat-btn {
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.4);
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .cat-btn.ativo {
+    background: #fff;
+    color: var(--cor-destaque);
+    font-weight: bold;
+  }
+  .card {
+    background: var(--cor-card);
+    border-radius: 18px;
+    padding: 28px 22px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+    margin-bottom: 20px;
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .tag {
+    font-size: 11px;
+    color: var(--cor-destaque);
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+  .frase {
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--cor-texto);
+    line-height: 1.4;
+    margin-bottom: 8px;
+  }
+  .referencia {
+    font-size: 13px;
+    color: #777;
+    margin-bottom: 16px;
+    font-style: italic;
+  }
+  .reflexao {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.5;
+    border-top: 1px solid #eee;
+    padding-top: 14px;
+    text-align: left;
+  }
+  .reflexao b {
+    color: var(--cor-destaque);
+  }
+  .botoes {
+    display: flex;
+    gap: 10px;
+  }
+  .botao {
+    flex: 1;
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .btn-sortear {
+    background: #fff;
+    color: var(--cor-destaque);
+  }
+  .btn-favoritar {
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.4);
+    flex: 0 0 54px;
+  }
+  .btn-favoritar.ativo {
+    background: #ff4d6d;
+    border-color: #ff4d6d;
+  }
+  .btn-compartilhar {
+    background: #25D366;
+    color: #fff;
+    margin-top: 10px;
+    width: 100%;
+  }
+  .favoritos-link {
+    display: block;
+    margin-top: 18px;
+    color: #dbe4ff;
+    font-size: 13px;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  .modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    z-index: 10;
+  }
+  .modal.aberto { display: flex; }
+  .modal-conteudo {
+    background: #fff;
+    border-radius: 16px;
+    padding: 20px;
+    max-width: 400px;
+    width: 100%;
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+  .modal-conteudo h2 {
+    font-size: 16px;
+    color: var(--cor-texto);
+    margin-top: 0;
+  }
+  .fav-item {
+    text-align: left;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 13px;
+    color: #333;
+  }
+  .fechar-modal {
+    margin-top: 14px;
+    background: var(--cor-destaque);
+    color: #fff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 100%;
+  }
+</style>
+</head>
+<body>
 
+<div class="container">
+  <h1>🙏 Frase do Dia</h1>
+  <p class="subtitulo">Fé, motivação e superação para o seu dia</p>
+
+  <div class="categorias">
+    <button class="cat-btn ativo" onclick="filtrarCategoria('todas', this)">Todas</button>
+    <button class="cat-btn" onclick="filtrarCategoria('fe', this)">Fé</button>
+    <button class="cat-btn" onclick="filtrarCategoria('motivacao', this)">Motivação</button>
+    <button class="cat-btn" onclick="filtrarCategoria('superacao', this)">Superação</button>
+  </div>
+
+  <div class="card" id="card">
+    <div class="tag" id="tag">Fé</div>
+    <div class="frase" id="frase">Carregando...</div>
+    <div class="referencia" id="referencia"></div>
+    <div class="reflexao"><b>Reflexão:</b> <span id="reflexao"></span></div>
+  </div>
+
+  <div class="botoes">
+    <button class="botao btn-sortear" onclick="sortearFrase()">🔀 Outra frase</button>
+    <button class="botao btn-favoritar" id="btnFav" onclick="favoritarAtual()">❤️</button>
+  </div>
+  <button class="botao btn-compartilhar" onclick="compartilharWhatsApp()">📲 Compartilhar no WhatsApp</button>
+
+  <span class="favoritos-link" onclick="abrirFavoritos()">Ver minhas frases favoritas ⭐</span>
+</div>
+
+<div class="modal" id="modalFav">
+  <div class="modal-conteudo">
+    <h2>⭐ Suas frases favoritas</h2>
+    <div id="listaFavoritos"></div>
+    <button class="fechar-modal" onclick="fecharFavoritos()">Fechar</button>
+  </div>
+</div>
+
+<script>
+  // ===================================================================
+  // BANCO DE FRASES - Você pode adicionar mais aqui, seguindo o mesmo formato
+  // ===================================================================
+  const frases = [
+    { id: 1, categoria: 'fe', tag: 'Fé', texto: 'Tudo posso naquele que me fortalece.', referencia: 'Filipenses 4:13', reflexao: 'Nossas forças têm limite, mas quando dependemos de Deus, encontramos coragem para enfrentar qualquer desafio do dia a dia.' },
+    { id: 2, categoria: 'fe', tag: 'Fé', texto: 'O Senhor é o meu pastor, nada me faltará.', referencia: 'Salmos 23:1', reflexao: 'Confiar que somos cuidados traz paz para o coração, mesmo quando o caminho parece incerto.' },
+    { id: 3, categoria: 'fe', tag: 'Fé', texto: 'Entrega o teu caminho ao Senhor; confia nele, e ele o fará.', referencia: 'Salmos 37:5', reflexao: 'Muitas vezes queremos controlar tudo. Esse versículo nos convida a soltar as rédeas e confiar em um propósito maior.' },
+    { id: 4, categoria: 'fe', tag: 'Fé', texto: 'Não temas, porque eu sou contigo.', referencia: 'Isaías 41:10', reflexao: 'O medo paralisa, mas lembrar que não estamos sozinhos nos dá coragem para dar o próximo passo.' },
+    { id: 5, categoria: 'fe', tag: 'Fé', texto: 'A fé é o firme fundamento das coisas que se esperam.', referencia: 'Hebreus 11:1', reflexao: 'Acreditar antes de ver é o que nos move a continuar tentando, mesmo sem garantias.' },
+    { id: 6, categoria: 'motivacao', tag: 'Motivação', texto: 'A persistência é o caminho do êxito.', referencia: 'Charles Chaplin', reflexao: 'Grandes resultados raramente vêm rápido. Continuar tentando, mesmo devagar, já é sucesso.' },
+    { id: 7, categoria: 'motivacao', tag: 'Motivação', texto: 'O sucesso é a soma de pequenos esforços repetidos todos os dias.', referencia: 'Robert Collier', reflexao: 'Não é preciso fazer algo gigante hoje. Pequenas ações consistentes constroem grandes conquistas.' },
+    { id: 8, categoria: 'motivacao', tag: 'Motivação', texto: 'Você não precisa ser ótimo para começar, mas precisa começar para ser ótimo.', referencia: 'Zig Ziglar', reflexao: 'A perfeição não é o ponto de partida. É dando o primeiro passo, mesmo imperfeito, que a evolução começa.' },
+    { id: 9, categoria: 'motivacao', tag: 'Motivação', texto: 'Motivação é o que te faz começar. Hábito é o que te mantém indo.', referencia: 'Jim Ryun', reflexao: 'Não espere se sentir motivado todos os dias. Transforme sua meta em rotina, e o resultado aparece.' },
+    { id: 10, categoria: 'motivacao', tag: 'Motivação', texto: 'Faça hoje o que os outros não querem, para ter amanhã o que os outros não têm.', referencia: 'Autor desconhecido', reflexao: 'Disciplina no presente é o que separa quem sonha de quem realiza.' },
+    { id: 11, categoria: 'superacao', tag: 'Superação', texto: 'Não é o mais forte que sobrevive, nem o mais inteligente, mas o que melhor se adapta.', referencia: 'Charles Darwin', reflexao: 'Diante das dificuldades, flexibilidade e adaptação valem mais do que resistir sozinho e sem mudar.' },
+    { id: 12, categoria: 'superacao', tag: 'Superação', texto: 'A queda faz parte da subida.', referencia: 'Autor desconhecido', reflexao: 'Errar e cair não é o oposto de vencer, é parte do caminho de quem está tentando.' },
+    { id: 13, categoria: 'superacao', tag: 'Superação', texto: 'Nenhuma tempestade dura para sempre.', referencia: 'Provérbio popular', reflexao: 'Momentos difíceis parecem eternos enquanto estamos dentro deles, mas toda fase passa.' },
+    { id: 14, categoria: 'superacao', tag: 'Superação', texto: 'O que não te derruba, te fortalece.', referencia: 'Friedrich Nietzsche', reflexao: 'Cada desafio superado deixa uma marca de força que carregamos para os próximos obstáculos.' },
+    { id: 15, categoria: 'superacao', tag: 'Superação', texto: 'Levanta-te, sacode o pó e vira a página.', referencia: 'Provérbio popular', reflexao: 'Não dá pra mudar o que já passou, mas sempre dá pra decidir como seguir a partir de agora.' }
+  ];
+
+  let categoriaAtual = 'todas';
+  let fraseAtualId = null;
+
+  function getFrasesFiltradas() {
+    if (categoriaAtual === 'todas') return frases;
+    return frases.filter(f => f.categoria === categoriaAtual);
+  }
+
+  function sortearFrase() {
+    const lista = getFrasesFiltradas();
+    const escolhida = lista[Math.floor(Math.random() * lista.length)];
+    mostrarFrase(escolhida);
+  }
+
+  function mostrarFrase(f) {
+    fraseAtualId = f.id;
+    document.getElementById('tag').textContent = f.tag;
+    document.getElementById('frase').textContent = f.texto;
+    document.getElementById('referencia').textContent = '— ' + f.referencia;
+    document.getElementById('reflexao').textContent = f.reflexao;
+    atualizarBotaoFavorito();
+  }
+
+  function filtrarCategoria(cat, botao) {
+    categoriaAtual = cat;
+    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('ativo'));
+    botao.classList.add('ativo');
+    sortearFrase();
+  }
+
+  function getFavoritos() {
+    return JSON.parse(localStorage.getItem('favoritos') || '[]');
+  }
+
+  function atualizarBotaoFavorito() {
+    const favoritos = getFavoritos();
+    const btn = document.getElementById('btnFav');
+    if (favoritos.includes(fraseAtualId)) {
+      btn.classList.add('ativo');
+    } else {
+      btn.classList.remove('ativo');
+    }
+  }
+
+  function favoritarAtual() {
+    let favoritos = getFavoritos();
+    if (favoritos.includes(fraseAtualId)) {
+      favoritos = favoritos.filter(id => id !== fraseAtualId);
+    } else {
+      favoritos.push(fraseAtualId);
+    }
+    localStorage.setItem('favoritos', JSON.stringify(favoritos));
+    atualizarBotaoFavorito();
+  }
+
+  function abrirFavoritos() {
+    const favoritos = getFavoritos();
+    const lista = document.getElementById('listaFavoritos');
+    if (favoritos.length === 0) {
+      lista.innerHTML = '<p style="font-size:13px;color:#888;">Você ainda não favoritou nenhuma frase. Toque no ❤️ para salvar!</p>';
+    } else {
+      lista.innerHTML = favoritos.map(id => {
+        const f = frases.find(fr => fr.id === id);
+        if (!f) return '';
+        return `<div class="fav-item"><b>${f.texto}</b><br><span style="color:#999;">— ${f.referencia}</span></div>`;
+      }).join('');
+    }
+    document.getElementById('modalFav').classList.add('aberto');
+  }
+
+  function fecharFavoritos() {
+    document.getElementById('modalFav').classList.remove('aberto');
+  }
+
+  function compartilharWhatsApp() {
+    const f = frases.find(fr => fr.id === fraseAtualId);
+    const texto = `"${f.texto}" — ${f.referencia}\n\n${f.reflexao}\n\nEnviado pelo app Frase do Dia 🙏`;
+    const url = `https://wa.me/?text=${encodeURIComponent(texto)}`;
+    window.open(url, '_blank');
+  }
+
+  // Mostra a primeira frase ao carregar
+  sortearFrase();
+</script>
+
+</body>
+</html>
