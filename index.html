@@ -31,6 +31,10 @@
     color: #fff;
     font-size: 22px;
     margin: 0 0 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
   }
   p.subtitulo {
     color: #dbe4ff;
@@ -188,12 +192,17 @@
     cursor: pointer;
     width: 100%;
   }
+  .logo-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+  }
 </style>
 </head>
 <body>
 
 <div class="container">
-  <h1><img src="logo.png" alt="Logo" style="width:70px; height:70px; border-radius:50%; vertical-align:middle; margin-right:8px;"> Frase do Dia</h1>
+  <h1><img src="logo.png" alt="Logo" class="logo-img"> Frase do Dia</h1>
   <p class="subtitulo">Fé, motivação e superação para o seu dia</p>
 
   <div class="categorias">
@@ -228,9 +237,6 @@
 </div>
 
 <script>
-  // ===================================================================
-  // BANCO DE FRASES - Você pode adicionar mais aqui, seguindo o mesmo formato
-  // ===================================================================
   const frases = [
     { id: 1, categoria: 'fe', tag: 'Fé', texto: 'Tudo posso naquele que me fortalece.', referencia: 'Filipenses 4:13', reflexao: 'Nossas forças têm limite, mas quando dependemos de Deus, encontramos coragem para enfrentar qualquer desafio do dia a dia.' },
     { id: 2, categoria: 'fe', tag: 'Fé', texto: 'O Senhor é o meu pastor, nada me faltará.', referencia: 'Salmos 23:1', reflexao: 'Confiar que somos cuidados traz paz para o coração, mesmo quando o caminho parece incerto.' },
@@ -330,7 +336,6 @@
     window.open(url, '_blank');
   }
 
-  // Mostra a primeira frase ao carregar
   sortearFrase();
 </script>
 
